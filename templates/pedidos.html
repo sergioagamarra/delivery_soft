@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Pedidos
+{% endblock %}
+
+
+{% block main %}
+<div class="d-flex flex-column align-items-center m-3" >
+    <h3 class="mx-3 title">Pedidos</h3>
+</div>
+<section class="container">
+    <div class="row">
+        <section class="h-100" style="background-color: #eee;">
+            <div class="container p-0 h-100">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-10 mb-5">
+                    {% if page_obj %}
+                        {% for pedido in page_obj %}
+                        <div class="card mb-4 shadow" style="border-radius: 20px;" >
+                            <div class="row g-0">
+                            
+                              <div class="col-md-8">
+                                <div class="card-body ml-3">
+                                  <h5 class="card-title" style="color: #FF4249;"> Fecha del pedido: {{ pedido.fecha }} </h5>
+                                  {% if pedido.estado == 'p' %}
+                                        <span class="badge rounded-pill badge-warning my-2">Pendiente</span>
+                                    {% else %}
+                                        {% if pedido.estado == 'e' %}
+                                            <span class="badge rounded-pill badge-success my-2">Entregado</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill badge-primary my-2  ">En Camino</span>
+
+                                        {% endif %}
+
+                                    {% endif %}
+                                <a href="/map/{{ pedido.id }}" class="product btn-sm mt-2" type="button">Ver ruta</a>  
+                                  <p class="card-text text-success" style="color: #5c5c5c;">Total: ${{ pedido.total }}</p>
+                                  <p class="card-text text-success" style="color: #5c5c5c;">{{ pedido.ubicacion.coordinates }}</p>
+                                  <hr>
+                                  <h6 style="color: #5c5c5c;">Detalles del Pedido</h6>
+                                  <!-- <p class="card-text"><small class="text-muted">Detalle pedido: </small></p> -->
+                                 
+                                    <table class="table table-borderless">
+                                        
+                                        <thead>
+                                        <tr style="color: #FF4249;">
+                                            <th scope="col">Producto</th>
+                                            <th scope="col">Categoría</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio U.</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for detalle in pedido.detalles %}
+                                                <tr style="color: #5c5c5c;">
+                                                    <td>{{detalle.product.name}}</td>
+                                                    <td>{{detalle.product.category}}</td>
+                                                    <td>{{ detalle.amount }}</td>
+                                                    <td>${{ detalle.product.price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                 <!--  <ul class="list-group list-group-flush ">
+                                    <li class="list-group-item">{{detalle.product.name}} Cantidad: {{ detalle.amount }} Precio: {{ detalle.amount }}</li>
+                                  </ul> -->
+                                  <!-- <p class="card-text"><small class="text-muted">{{detalle.product.name}} Cantidad: {{ detalle.amount }} Precio: {{ detalle.product.price }}</small></p> -->
+                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                            {% if page_obj.paginator.num_pages > 1 %}
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination mt-5 justify-content-center   ">
+                                        
+                                            {% if page_obj.has_previous %}
+                                                <li class="page-item">
+                                                    
+                                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" style="color: #FF4249;">Anterior</a>
+                                                </li>
+                                            {% endif %}
+                                        
+                                            {% for i in page_obj.paginator.page_range %}
+                                    
+                                                {% if i == page_obj.number %}
+                                                    <li class="page-item active" >
+                                                        <a class="page-link" href="#" style="background-color: #FF4249; border: 1px solid #FF4249;">{{ i }} </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ i }}" style="color: #FF4249;">{{ i }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                
+                                            {% endfor %}
+                                
+                                            {% if page_obj.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="color: #FF4249;">Siguiente</a>
+                                                </li>
+                                            {% endif %}
+                                
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </symbol>
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <strong>No tienes pedidos!</strong> Por favor ingrese a "Menú" para agregar productos a su carrito.
+                        </div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            </div>
+        </section>
+    </div>
+
+</section>
+
+{% endblock %}

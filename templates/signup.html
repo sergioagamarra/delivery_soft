@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Registro
+{% endblock %}
+
+{% block main %}
+
+    <!-- <div class="d-flex flex-column align-items-center m-3" >
+        <h3 class="m-3">Sing Up</h3>
+        <form method="post" action="/auth/signup/" style="width: 400px;">
+            {% csrf_token %}
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label">First name</label>
+                <input type="text" class="form-control" name="first_name" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label">Last name</label>
+                <input type="text" class="form-control" name="last_name" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" required>
+                </div>
+            <div class="mb-2">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputPassword1" class="form-label">Confirm password</label>
+                <input type="password" class="form-control" name="password_confirmation" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputPassword1" class="form-label">Barrio</label>
+                <input type="text" class="form-control" name="barrio" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputPassword1" class="form-label">Calle</label>
+                <input type="text" class="form-control" name="calle" required>
+            </div>
+            <div class="mb-2">
+                <label for="exampleInputPassword1" class="form-label">Dirección</label>
+                <input type="number" class="form-control" name="numero" required>
+            </div>
+            
+            <button class="btn btn-primary">Register</button>
+        </form>
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    </div> -->
+    <section class="vh-80" style="background-color: #FFF;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            {% if errorPassword %}
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </symbol>
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <strong>La contraseña y la confirmación de la contraseña no coinciden!</strong> Por favor complete nuevamente el formulario.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
+              {% if errorEmailReg %}
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </symbol>
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <strong>El email o el nombre de usuario ya se encuentran registrado!</strong> Por favor ingrese complete nuevamente el formulario.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
+            <div class="col-6" >
+              <div class="card shadow" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center" >
+                    <form method="post" action="/auth/signup/">
+                        {% csrf_token %}
+                        <h3 class="mb-5 title">Registro de usuario</h3>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div class="form-outline">
+                                <input name="first_name" type="text" id="form3Example1" class="form-control form-control-lg rounded-pill" placeholder="Nombre" />
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div class="form-outline">
+                                <input name="last_name" type="text" id="form3Example2" class="form-control form-control-lg rounded-pill" placeholder="Apellido"/>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input name="username" type="text" id="typeEmailX-2" class="form-control form-control-lg rounded-pill" placeholder="Nombre de usuario" />
+                            
+                        </div>
+            
+                        <div class="form-outline mb-4">
+                            <input name="email" type="email" id="typePasswordX-2" class="form-control form-control-lg rounded-pill" placeholder="Email" />
+                            
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input name="password" type="password" id="typePasswordX-2" class="form-control form-control-lg rounded-pill" placeholder="Contraseña" />
+                            
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input name="password_confirmation" type="password" id="typePasswordX-2" class="form-control form-control-lg rounded-pill" placeholder="Repitir contraseña" />
+                            
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input name="barrio" type="text" id="typePasswordX-2" class="form-control form-control-lg rounded-pill" placeholder="Barrio"/>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div class="form-outline">
+                                <input name="calle" type="text" id="form3Example1" class="form-control form-control-lg rounded-pill" placeholder="Calle"/>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div class="form-outline">
+                                <input name="numero" type="number" id="form3Example2" class="form-control form-control-lg rounded-pill" placeholder="Número"/>
+                              </div>
+                            </div>
+                        </div>
+            
+            
+                        <button class="btn-lg btn-block login_button" type="submit">Crear usuario</button>
+            
+                        <hr class="my-4">
+            
+                        <div class="text-center">
+                            <p>O registrate con:</p>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                              <i class="fab fa-facebook-f signup_button_facebook"></i>
+                            </button>
+              
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                              <i class="fab fa-google signup_button_google"></i>
+                            </button>
+              
+                          </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{% endblock %}
